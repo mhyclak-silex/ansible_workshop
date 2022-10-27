@@ -15,24 +15,24 @@
           ansible.builtin.tempfile:
             state: directory
           register: aw_app_directory
+          delegate_to: localhost
 
         - name: Clone Application Repository
           ansible.builtin.git:
             repo: https://github.com/mhyclak-silex/aw_app.git
             dest: "{{ aw_app_directory.path }}"
             version: "{{ aw_app_branch | d('main') }}"
+          delegate_to: localhost
 
         - name: Debug Application Repository
           ansible.builtin.command: "ls -l {{ aw_app_directory.path }}"
+          delegate_to: localhost
 
         - name: Deploy index.html
           ansible.builtin.template:
             src: "{{ aw_app_directory.path }}/index.html.j2"
             dest: /var/www/html/index.html
             mode: 0755
-            remote_src: true
-
-
       always:
         - name: Cleanup Temporary Directory
           ansible.builtin.file:
