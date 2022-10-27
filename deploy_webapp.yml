@@ -38,3 +38,4 @@
           ansible.builtin.file:
             path: "{{ aw_app_directory.path }}"
             state: absent
+          delegate_to: localhost
