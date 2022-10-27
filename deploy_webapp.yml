@@ -1,0 +1,30 @@
+---
+- name: Deploy Webapp
+  hosts: web
+  become: true
+
+  tasks:
+    - name: Deploy Application from Github
+      block:
+        - name: Create Temporary Directory
+          ansible.builtin.tempfile:
+            state: directory
+          register: aw_app_directory
+
+        - name: Clone Application Repository
+          ansible.builtin.git:
+            repo: https://github.com/mhyclak-silex/aw_app.git
+            dest: "{{ aw_app_directory.path }}"
+            version: "{{ ap_app_branch | d('main') }}"
+
+        - name: Deploy index.html
+          ansible.builtin.template:
+            src: "{{ aw_app_directory.path }}/index.html.j2"
+            dest: /var/www/html/index.html
+            mode: 0755
+
+      always:
+        - name: Cleanup Temporary Directory
+          ansible.builtin.file:
+            path: "{{ aw_app_directory.path }}"
+            state: absent
