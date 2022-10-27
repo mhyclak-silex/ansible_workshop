@@ -22,6 +22,9 @@
             dest: "{{ aw_app_directory.path }}"
             version: "{{ aw_app_branch | d('main') }}"
 
+        - name: Debug Application Repository
+          ansible.builtin.command: "ls -l {{ aw_app_directory.path }}"
+
         - name: Deploy index.html
           ansible.builtin.template:
             src: "{{ aw_app_directory.path }}/index.html.j2"
