@@ -15,7 +15,7 @@
           ansible.builtin.git:
             repo: https://github.com/mhyclak-silex/aw_app.git
             dest: "{{ aw_app_directory.path }}"
-            version: "{{ ap_app_branch | d('main') }}"
+            version: "{{ aw_app_branch | d('main') }}"
 
         - name: Deploy index.html
           ansible.builtin.template:
