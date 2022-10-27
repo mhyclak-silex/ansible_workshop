@@ -48,6 +48,7 @@
     - name: Validate Application
       ansible.builtin.uri:
         url: http://{{ inventory_hostname }}/index.html
+        return_content: true
       register: uri_results
 
     - name: Show Validation
