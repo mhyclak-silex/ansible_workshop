@@ -27,6 +27,8 @@
             src: "{{ aw_app_directory.path }}/index.html.j2"
             dest: /var/www/html/index.html
             mode: 0755
+            remote_src: true
+
 
       always:
         - name: Cleanup Temporary Directory
