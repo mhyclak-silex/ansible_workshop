@@ -16,6 +16,7 @@
             state: directory
           register: aw_app_directory
           delegate_to: localhost
+          run_once: true
 
         - name: Clone Application Repository
           ansible.builtin.git:
@@ -23,10 +24,12 @@
             dest: "{{ aw_app_directory.path }}"
             version: "{{ aw_app_branch | d('main') }}"
           delegate_to: localhost
+          run_once: true
 
         - name: Debug Application Repository
           ansible.builtin.command: "ls -l {{ aw_app_directory.path }}"
           delegate_to: localhost
+          run_once: true
 
         - name: Deploy index.html
           ansible.builtin.template:
@@ -39,3 +42,4 @@
             path: "{{ aw_app_directory.path }}"
             state: absent
           delegate_to: localhost
+          run_once: true
