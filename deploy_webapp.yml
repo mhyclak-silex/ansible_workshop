@@ -28,6 +28,7 @@
 
         - name: Debug Application Repository
           ansible.builtin.command: "ls -l {{ aw_app_directory.path }}"
+          changed_when: false
           delegate_to: localhost
           run_once: true
 
@@ -43,3 +44,12 @@
             state: absent
           delegate_to: localhost
           run_once: true
+
+    - name: Validate Application
+      ansible.builtin.uri:
+        url: http://{{ inventory_hostname }}
+      register: uri_results
+
+    - name: Show Validation
+      ansible.builtin.debug:
+        var: uri_results
